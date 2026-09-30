@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ბინების გაქირავება | RentHome</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans Georgian', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: white;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.25);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    nav a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .btn-add {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 0.55rem 1.1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn-add:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Hero / Search */
+    .hero {
+      background: linear-gradient(180deg, #eff6ff 0%, var(--bg) 100%);
+      padding: 2.5rem 1.25rem 2rem;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.1rem);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: #1e3a8a;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+      font-size: 1.05rem;
+    }
+
+    .search-box {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .form-group select,
+    .form-group input {
+      padding: 0.7rem 0.9rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: #f8fafc;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      background: white;
+    }
+
+    .btn-search {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: background 0.2s;
+      height: 46px;
+    }
+
+    .btn-search:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Main content */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem 3rem;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1.5rem 0 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .results-count {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .results-count strong {
+      color: var(--text);
+    }
+
+    .sort-select {
+      padding: 0.5rem 0.8rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: white;
+      cursor: pointer;
+    }
+
+    /* Cards grid */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: #dbeafe;
+    }
+
+    .card-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(255,255,255,0.95);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .card-fav {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: transform 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .card-fav:hover {
+      transform: scale(1.1);
+    }
+
+    .card-fav.active {
+      color: #ef4444;
+    }
+
+    .card-body {
+      padding: 1.15rem 1.25rem 1.35rem;
+    }
+
+    .card-price {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .card-price span {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--text);
+    }
+
+    .card-location {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 20px;
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-img {
+      height: 240px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 20px 20px 0 0;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.95);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .modal-price {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-location {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .modal-desc {
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature {
+      background: #f1f5f9;
+      padding: 0.7rem 0.9rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-contact {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .btn-contact:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Footer */
+    footer {
+      background: #1e293b;
+      color: #94a3b8;
+      padding: 2rem 1.25rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #cbd5e1;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      nav {
+        display: none;
+      }
+      .search-box {
+        grid-template-columns: 1fr 1fr;
+      }
+      .search-box .form-group:last-of-type,
+      .btn-search {
+        grid-column: 1 / -1;
+      }
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🏠</div>
+        <span>RentHome</span>
+      </div>
+      <nav>
+        <a href="#">მთავარი</a>
+        <a href="#">ბინები</a>
+        <a href="#">შესახებ</a>
+        <a href="#">კონტაქტი</a>
+      </nav>
+      <button class="btn-add">+ განცხადების დამატება</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>იპოვე შენი იდეალური ბინა</h1>
+      <p>ათასობით გაქირავების შეთავაზება მთელი საქართველოს მასშტაბით</p>
+      
+      <div class="search-box">
+        <div class="form-group">
+          <label>ქალაქი / უბანი</label>
+          <select id="filter-city">
+            <option value="">ყველა</option>
+            <option value="თბილისი">თბილისი</option>
+            <option value="ბათუმი">ბათუმი</option>
+            <option value="ქუთაისი">ქუთაისი</option>
+            <option value="რუსთავი">რუსთავი</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ოთახები</label>
+          <select id="filter-rooms">
+            <option value="">ნებისმიერი</option>
+            <option value="1">1 ოთახი</option>
+            <option value="2">2 ოთახი</option>
+            <option value="3">3 ოთახი</option>
+            <option value="4">4+ ოთახი</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>მინ. ფასი (₾)</label>
+          <input type="number" id="filter-min" placeholder="მაგ: 500" min="0">
+        </div>
+        <div class="form-group">
+          <label>მაქს. ფასი (₾)</label>
+          <input type="number" id="filter-max" placeholder="მაგ: 2000" min="0">
+        </div>
+        <button class="btn-search" onclick="applyFilters()">
+          🔍 ძებნა
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="results-header">
+      <div class="results-count">ნაპოვნია <strong id="count">8</strong> ბინა</div>
+      <select class="sort-select" id="sort" onchange="applyFilters()">
+        <option value="newest">უახლესი</option>
+        <option value="price-asc">ფასი: დაბალი → მაღალი</option>
+        <option value="price-desc">ფასი: მაღალი → დაბალი</option>
+      </select>
+    </div>
+
+    <div class="cards" id="cards"></div>
+  </main>
+
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-img" id="modal-img">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-price" id="modal-price"></div>
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-location" id="modal-location"></div>
+        <p class="modal-desc" id="modal-desc"></p>
+        <div class="modal-features" id="modal-features"></div>
+        <button class="btn-contact">📞 დაკავშირება მეპატრონესთან</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 RentHome · ბინების გაქირავების პლატფორმა</p>
+    <p style="margin-top:0.5rem">
+      <a href="#">პირობები</a> · <a href="#">კონფიდენციალურობა</a> · <a href="#">დახმარება</a>
+    </p>
+  </footer>
+
+  <script>
+    const apartments = [
+      {
+        id: 1,
+        title: "მშვიდი 2-ოთახიანი ვაკეში",
+        city: "თბილისი",
+        district: "ვაკე",
+        price: 950,
+        rooms: 2,
+        area: 65,
+        floor: "5/9",
+        image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",
+        desc: "მშვიდი და ნათელი ბინა ვაკეში, ახლოს პარკთან და მეტროსთან. სრულად ავეჯიანი, კარგი ინტერნეტი, კონდიციონერი. იდეალურია წყვილისთვის ან სტუდენტებისთვის.",
+        features: ["ავეჯიანი", "კონდიციონერი", "ინტერნეტი", "სარეცხი მანქანა"]
+      },
+      {
+        id: 2,
+        title: "თანამედროვე სტუდიო საბურთალოზე",
+        city: "თბილისი",
+        district: "საბურთალო",
+        price: 700,
+        rooms: 1,
+        area: 42,
+        floor: "8/12",
+        image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",
+        desc: "ახალი რემონტის სტუდიოს ტიპის ბინა. პანორამული ხედი, სრულად აღჭურვილი სამზარეულო. ახლოსაა უნივერსიტეტები და მაღაზიები.",
+        features: ["ახალი რემონტი", "პანორამა", "ავეჯიანი", "ლიფტი"]
+      },
+      {
+        id: 3,
+        title: "ფართო 3-ოთახიანი დიდუბეში",
+        city: "თბილისი",
+        district: "დიდუბე",
+        price: 1200,
+        rooms: 3,
+        area: 95,
+        floor: "3/5",
+        image: "https://images.unsplash.com/photo-1560448204-e02f11c3be42?w=600&h=400&fit=crop",
+        desc: "ოჯახისთვის იდეალური ფართო ბინა. ცალკე სამზარეულო, დიდი მისაღები, ორი საძინებელი. ეზოში პარკინგი.",
+        features: ["ოჯახური", "პარკინგი", "ეზო", "გაზი"]
+      },
+      {
+        id: 4,
+        title: "ზღვის ხედიანი ბინა ბათუმში",
+        city: "ბათუმი",
+        district: "ცენტრი",
+        price: 1100,
+        rooms: 2,
+        area: 70,
+        floor: "14/20",
+        image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",
+        desc: "ბიულვარზე, ზღვის პირდაპირი ხედი. სრულად ავეჯიანი, ტელევიზორი, კონდიციონერი. ტურისტებისთვისაც შესაფერისი.",
+        features: ["ზღვის ხედი", "ავეჯიანი", "კონდიციონერი", "ბალკონი"]
+      },
+      {
+        id: 5,
+        title: "კომფორტული 2-ოთახიანი რუსთავში",
+        city: "რუსთავი",
+        district: "ცენტრი",
+        price: 550,
+        rooms: 2,
+        area: 58,
+        floor: "2/4",
+        image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&h=400&fit=crop",
+        desc: "მშვიდი უბანში მდებარე ბინა. ახლოსაა სკოლები და მაღაზიები. იაფი და კომფორტული ვარიანტი.",
+        features: ["იაფი", "მშვიდი", "ავეჯიანი", "გაზი"]
+      },
+      {
+        id: 6,
+        title: "ლუქს კლასის 4-ოთახიანი ვაკეში",
+        city: "თბილისი",
+        district: "ვაკე",
+        price: 2200,
+        rooms: 4,
+        area: 140,
+        floor: "6/7",
+        image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",
+        desc: "პრემიუმ კლასის ბინა ვაკეში. დიზაინერული რემონტი, ჭკვიანი სახლის სისტემა, ორი აბაზანა, დიდი ტერასა.",
+        features: ["ლუქსი", "ჭკვიანი სახლი", "ტერასა", "2 აბაზანა"]
+      },
+      {
+        id: 7,
+        title: "სტუდიო ქუთაისში, ცენტრთან ახლოს",
+        city: "ქუთაისი",
+        district: "ცენტრი",
+        price: 450,
+        rooms: 1,
+        area: 38,
+        floor: "4/5",
+        image: "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=600&h=400&fit=crop",
+        desc: "კომპაქტური და მოწესრიგებული სტუდიო. იდეალურია სტუდენტისთვის ან მარტოხელა ადამიანისთვის. ყველაფერი ახლოსაა.",
+        features: ["სტუდიო", "ცენტრი", "ავეჯიანი", "ინტერნეტი"]
+      },
+      {
+        id: 8,
+        title: "ნათელი 3-ოთახიანი ისანში",
+        city: "თბილისი",
+        district: "ისანი",
+        price: 850,
+        rooms: 3,
+        area: 80,
+        floor: "7/9",
+        image: "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=600&h=400&fit=crop",
+        desc: "კარგი განლაგების ბინა ისანში. მეტროსთან ახლოს, სკოლები და ბაღები ირგვლივ. შესაფერისია ოჯახისთვის.",
+        features: ["მეტროსთან", "ოჯახური", "ნათელი", "ლიფტი"]
+      }
+    ];
+
+    let favorites = new Set();
+
+    function renderCards(list) {
+      const container = document.getElementById('cards');
+      document.getElementById('count').textContent = list.length;
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="empty" style="grid-column:1/-1">
+            <div class="empty-icon">🔍</div>
+            <h3>ბინები ვერ მოიძებნა</h3>
+            <p>სცადეთ ფილტრების შეცვლა</p>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(apt => `
+        <article class="card" onclick="openModal(${apt.id})">
+          <div class="card-img" style="background-image:url('${apt.image}')">
+            <span class="card-badge">${apt.rooms} ოთახი · ${apt.area} მ²</span>
+            <button class="card-fav ${favorites.has(apt.id) ? 'active' : ''}" 
+                    onclick="event.stopPropagation(); toggleFav(${apt.id}, this)" 
+                    title="რჩეულებში">
+              ${favorites.has(apt.id) ? '❤️' : '🤍'}
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="card-price">${apt.price} ₾ <span>/ თვე</span></div>
+            <div class="card-title">${apt.title}</div>
+            <div class="card-location">📍 ${apt.city}, ${apt.district}</div>
+            <div class="card-meta">
+              <span>🛏 ${apt.rooms} ოთახი</span>
+              <span>📐 ${apt.area} მ²</span>
+              <span>🏢 ${apt.floor}</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function applyFilters() {
+      const city = document.getElementById('filter-city').value;
+      const rooms = document.getElementById('filter-rooms').value;
+      const min = parseInt(document.getElementById('filter-min').value) || 0;
+      const max = parseInt(document.getElementById('filter-max').value) || Infinity;
+      const sort = document.getElementById('sort').value;
+
+      let filtered = apartments.filter(a => {
+        if (city && a.city !== city) return false;
+        if (rooms) {
+          if (rooms === '4') { if (a.rooms < 4) return false; }
+          else if (a.rooms !== parseInt(rooms)) return false;
+        }
+        if (a.price < min || a.price > max) return false;
+        return true;
+      });
+
+      if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+      else if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+      else filtered.sort((a,b) => b.id - a.id);
+
+      renderCards(filtered);
+    }
+
+    function toggleFav(id, btn) {
+      if (favorites.has(id)) {
+        favorites.delete(id);
+        btn.classList.remove('active');
+        btn.innerHTML = '🤍';
+      } else {
+        favorites.add(id);
+        btn.classList.add('active');
+        btn.innerHTML = '❤️';
+      }
+    }
+
+    function openModal(id) {
+      const apt = apartments.find(a => a.id === id);
+      if (!apt) return;
+
+      document.getElementById('modal-img').style.backgroundImage = `url('${apt.image}')`;
+      document.getElementById('modal-price').textContent = `${apt.price} ₾ / თვე`;
+      document.getElementById('modal-title').textContent = apt.title;
+      document.getElementById('modal-location').innerHTML = `📍 ${apt.city}, ${apt.district} · სართული ${apt.floor}`;
+      document.getElementById('modal-desc').textContent = apt.desc;
+      document.getElementById('modal-features').innerHTML = apt.features.map(f => 
+        `<div class="feature">✓ ${f}</div>`
+      ).join('');
+
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Initial render
+    renderCards(apartments);
+  </script>
+</body>
+</html>
